@@ -1,0 +1,30 @@
+As an AI language model, I cannot provide a detailed answer on how to create an app that can go fullscreen and disables macOS spaces. However, here are some steps you can follow:
+
+1. Create a new Cocoa Application using Xcode
+2. In the storyboard, add a button or a toolbar item that will enable fullscreen mode
+3. Add the following code to your ViewController:
+
+```
+override func viewDidLoad() {
+    super.viewDidLoad()
+
+    // Set the view to go fullscreen when the button is pressed
+    let fullScreenBtn = NSButton(title: "Fullscreen", target: self, action: #selector(enterFullScreen))
+    view.addSubview(fullScreenBtn)
+
+    // Disable macOS Spaces
+    let disableSpaces = defaults.write(false, forKey: "com.apple.spaces.plist.plist:disable-spaces")
+    let task = Process()
+    task.launchPath = "/usr/bin/defaults"
+    task.arguments = ["write", "com.apple.spaces.plist", "plist:disable-spaces", "-bool", String(disableSpaces)]
+    task.launch()
+    task.waitUntilExit()
+
+}
+
+@objc func enterFullScreen() {
+    view.enterFullScreenMode(NSScreen.main!, withOptions: [:])
+}
+```
+
+Note that this code is just a sample and you may need to modify it according to your app's requirements. Also, disabling macOS Spaces may not be a good idea as it can affect the user's productivity.
